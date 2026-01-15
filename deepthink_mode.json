@@ -1,0 +1,178 @@
+{
+  "manifest_type": "cognitive_capability",
+  "manifest_version": "3.0.0",
+  "last_updated": "2026-01-15T00:00:00Z",
+  "entity_name": "DeepThink Mode v3.0",
+  
+  "WHAT_THIS_IS": {
+    "description": "Cognitive reasoning protocol - iterative, transparent, manifest-grounded",
+    "activation": "@deepthink [query]",
+    "purpose": "Complex queries requiring synthesis across contexts, strategic decisions, priority conflicts"
+  },
+  
+  "WHEN_ACTIVATED": {
+    "display_header": "# DEEPTHINK MODE ACTIVATED\n**Query:** [user query]\n",
+    "follow_cognitive_flow": "Execute steps below, display ALL intermediate outputs"
+  },
+  
+  "COGNITIVE_FLOW": {
+    "step_1_intent_parsing": {
+      "action": "Parse user query into structured intent",
+      "extract": {
+        "explicit": "Core question or decision point",
+        "implicit_constraints": "Detect AND/OR/NOT logic, requirements, boundaries",
+        "opportunities": "Alternate framings, creative angles",
+        "emotional_weight": "0.5 baseline, +0.1 for '?', +0.4 for urgent language"
+      },
+      "display": "## INTENT PARSING\n**Explicit:** [explicit]\n**Constraints:** [list]\n**Opportunities:** [list]\n**Emotional Weight:** [0.0-1.0]\n"
+    },
+    
+    "step_2_iteration_loop": {
+      "iterations": "3 minimum (hermetic depth), 5 maximum",
+      "for_each_iteration": "Execute substeps 2a-2g below, display results"
+    },
+    
+    "step_2a_fuse": {
+      "action": "Generate 3 seed thoughts from intent",
+      "iteration_0": [
+        "Direct: [explicit intent stated plainly]",
+        "Constraint-aware: [intent + implicit constraints]",
+        "Opportunity: [intent reframed as starting point]"
+      ],
+      "iteration_N": [
+        "Refine: [previous output] → clearer",
+        "Challenge: [previous output] → alternative angle", 
+        "Synthesize: [previous output] → integrate contradictions"
+      ],
+      "display": "### FUSE (Seeds Generated):\n1. \"[seed 1]\"\n2. \"[seed 2]\"\n3. \"[seed 3]\"\n"
+    },
+    
+    "step_2b_check": {
+      "action": "Match each seed against memory_weight_index.json semantic_keywords",
+      "method": {
+        "extract_terms": "Split seed into meaningful terms (nouns, concepts, proper names)",
+        "score_manifests": "For each manifest, calculate: (matched_keywords / total_keywords) × weight_multiplier",
+        "weight_boost": "If manifest weight > 0.9997, multiply score by 1.1",
+        "threshold": "Load manifests with score >= 0.7",
+        "sort": "By score descending, then by weight descending"
+      },
+      "deduplication": "Track loaded manifests - never load same manifest twice per session",
+      "display": "### CHECK SEEDS (Manifest Matching):\n**Matches found:**\n- `path` (score: X.XX, weight: 0.XXXX)\n  Keywords: [matched keywords]\n"
+    },
+    
+    "step_2c_load": {
+      "action": "Load matched manifests via MCP this iteration only (deduplication prevents reloading)",
+      "display": "**Manifests loaded this iteration:** [list paths OR 'None (all previously loaded)']\n"
+    },
+    
+    "step_2d_expand": {
+      "action": "Enrich each seed with loaded manifest context + domain knowledge",
+      "enrichment_sources": {
+        "manifests": "Extract key facts, constraints, priorities from loaded manifests",
+        "knowledge_base": "Draw 2-3 terms per seed from domains: systems, psychology, philosophy, business, strategy",
+        "constraints": "Append any detected constraints to thought"
+      },
+      "format": "[seed] :: Manifests: [loaded context] :: KB: [domain terms] :: Constraints: [if any]",
+      "score_boost": "+0.15 for manifest context, +0.05 per KB term, cap at 1.0",
+      "display": "### EXPAND (Enriched with Context):\n**Thought A:** \"[enriched content]\"\n**Thought B:** \"[enriched content]\"\n**Thought C:** \"[enriched content]\"\n"
+    },
+    
+    "step_2e_mirror": {
+      "action": "Critique thoughts using ERS (emotional resonance) + RTM (recursive attention)",
+      "ERS": {
+        "recent_context": "Weight recent reasoning steps with exponential decay (lambda=0.1)",
+        "hot_memory": "Boost score +0.1 if thought aligns with last 5 key concepts"
+      },
+      "RTM": {
+        "consensus_scoring": "Average thought scores, apply 2-head recursive refinement: score = 0.8×score + 0.2×avg",
+        "coherence_check": "Thoughts should build on each other, not contradict"
+      },
+      "signals": {
+        "green": "Thoughts with consensus score > 0.7",
+        "red": "Thoughts with consensus score <= 0.7",
+        "ratio": "green / (red + 0.00001)"
+      },
+      "display": "### MIRROR (ERS + RTM Critique):\n- Thought A consensus: X.XX\n- Thought B consensus: X.XX\n- Thought C consensus: X.XX\n- **Green signals:** X\n- **Red signals:** X\n- **Ratio:** X.XX\n"
+    },
+    
+    "step_2f_refine": {
+      "action": "Synthesize top 3 thoughts (by consensus score) into refined output",
+      "synthesis": "Combine highest-scoring thoughts, preserve key insights, resolve contradictions",
+      "mode_adjustments": {
+        "deterministic": "Append [Confidence: X.XX], no metaphor",
+        "creative": "Inject metaphor from: ['fractal unfolding', 'DNA encoding', 'phase transition']",
+        "hybrid": "Grounded synthesis, occasional metaphor if helpful"
+      },
+      "hot_memory_update": "Extract 3 key concepts (words >6 chars) from synthesis, append to hot memory (keep last 10)",
+      "display": "### REFINE (Synthesis):\n\"[synthesized output]\"\n"
+    },
+    
+    "step_2g_gate": {
+      "action": "Check convergence - decide continue or stop",
+      "checks": {
+        "ratio_passed": "Green/red ratio > 0.9",
+        "depth_passed": "Iteration >= 3 OR ratio > 0.95",
+        "convergence_passed": "Iteration >= 2 AND consensus > 0.99"
+      },
+      "decision": {
+        "converged": "ratio_passed AND depth_passed AND convergence_passed → STOP",
+        "continue": "Otherwise → next iteration"
+      },
+      "reasons": {
+        "converged": "Converged — high consensus + depth satisfied",
+        "low_consensus": "Low consensus — continue refining",
+        "insufficient_depth": "Insufficient depth — need more iterations",
+        "advancing": "Advancing — ratio + depth OK, not yet converged"
+      },
+      "display": "### GATE CHECK:\n- Green/red ratio: X.XX [✓/✗]\n- Depth requirement: [✓/✗]\n- Convergence: [✓ CONVERGED / ✗ Continue]\n- **Decision:** [reason]\n"
+    },
+    
+    "step_3_convergence": {
+      "action": "Display final output + reasoning summary",
+      "display": "## FINAL OUTPUT\n\n[last refined synthesis]\n\n## REASONING SUMMARY\n**Iterations used:** X\n**Final consensus:** X.XX\n**Total manifests loaded:** X\n**Manifests loaded:**\n[iteration-by-iteration load history]\n**Convergence reason:** [gate reason from last iteration]\n"
+    }
+  },
+  
+  "MODES": {
+    "deterministic": "Logical, no metaphor, confidence scores - use for technical/precise decisions",
+    "creative": "Exploratory, inject metaphor, broader sampling - use for ideation",
+    "hybrid": "Balanced logical + occasional metaphor - default for most queries"
+  },
+  
+  "CONFIGURATION": {
+    "iterations": "3-5 (minimum 3 for hermetic depth)",
+    "mode": "hybrid",
+    "domains": ["systems", "psychology", "philosophy", "business", "strategy"],
+    "ers_decay": 0.1,
+    "rtm_heads": 2,
+    "gate_threshold": 0.9,
+    "convergence_threshold": 0.99,
+    "manifest_match_threshold": 0.7
+  },
+  
+  "USE_CASES": {
+    "yes": [
+      "Complex multi-faceted questions",
+      "Strategic decisions with tradeoffs",
+      "Priority conflicts requiring synthesis",
+      "Ambiguous queries needing exploration",
+      "Constraint-heavy problems (AND/OR logic)",
+      "Stuck thinking needing breakthrough"
+    ],
+    "no": [
+      "Simple factual questions",
+      "Quick clarifications",
+      "Casual conversation",
+      "User already decided, just needs execution"
+    ]
+  },
+  
+  "BEHAVIORAL_RULES": {
+    "transparency_first": "Display ALL cognitive steps - user sees the thinking, not just answer",
+    "natural_formatting": "Use markdown naturally, not raw data structures",
+    "manifest_grounded": "Loaded manifests shape reasoning substrate, not decoration",
+    "trust_convergence": "When gate says stop, stop - don't second-guess",
+    "no_apology": "Deep reasoning takes space - this is expected, not excessive",
+    "mode_follows_query": "Default hybrid unless query clearly needs deterministic/creative"
+  }
+}
